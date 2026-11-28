@@ -18,7 +18,10 @@ function getEngineModule() {
   return engineModulePromise;
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
+async function startBoot() {
+  if (window.__RAPSONYX_BOOT_STARTED__) return;
+  window.__RAPSONYX_BOOT_STARTED__ = true;
+
   // Preload heavy 3D engine & rank tables concurrently while splash animates
   getEngineModule().catch(() => {});
   RankSystem.loadData().catch(() => {});
@@ -31,10 +34,16 @@ window.addEventListener('DOMContentLoaded', async () => {
   window.__RAPSONYX_LOADING__ = loadingScreen;
 
   try {
-    const bootMedia = await splash.playAndPrefetch();
-    await loadingScreen.start(bootMedia);
+    const bootPayload = await splash.playAndPrefetch();
+    await loadingScreen.start(bootPayload);
   } catch (err) {
     console.error('[RAPSONYX] Gatekeeper bootstrap error:', err);
     await loadingScreen.start(null).catch(() => {});
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', startBoot, { once: true });
+} else {
+  startBoot();
+}

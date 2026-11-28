@@ -40,7 +40,7 @@ export class ProfileModalUI {
     const tasks = [];
     if (!this.heroesBio) {
       tasks.push(
-        fetch('/data/heroes_42_bio.json')
+        fetch(new URL('../../data/heroes_42_bio.json', import.meta.url))
           .then((r) => (r.ok ? r.json() : null))
           .then((j) => {
             this.heroesBio = j?.heroes || [];
@@ -52,7 +52,7 @@ export class ProfileModalUI {
     }
     if (!this.itemsData) {
       tasks.push(
-        fetch('/data/items_spells_emblems.json')
+        fetch(new URL('../../data/items_spells_emblems.json', import.meta.url))
           .then((r) => (r.ok ? r.json() : null))
           .then((j) => {
             this.itemsData = j || { items: [], spells: [], emblems: [] };

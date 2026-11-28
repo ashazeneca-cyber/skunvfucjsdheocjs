@@ -56,6 +56,40 @@
   <section id="splash-intro-screen" data-stage="black" aria-label="Splash Intro RAPSONYX">
     <img src="startup/logo%20pembuat.png" alt="Komunitas Pembuat RAPSONYX" class="splash-maker-logo" fetchpriority="high" decoding="async">
   </section>
+  <script>
+    (function () {
+      function showFallbackPanel(statusMsg, phaseMsg) {
+        var sp = document.getElementById('splash-intro-screen');
+        var pre = document.getElementById('pre-entry-screen');
+        var svg = document.getElementById('pre-entry-rapsonyx-svg');
+        var st = document.getElementById('pre-entry-status-text');
+        var ph = document.getElementById('pre-entry-phase-label');
+        var btn = document.getElementById('btn-enter-rapsonyx');
+        if (sp) sp.classList.add('hidden');
+        if (pre) pre.classList.remove('hidden');
+        if (svg) svg.classList.add('active');
+        if (document.body) document.body.dataset.scene = 'loading';
+        if (st) st.textContent = statusMsg;
+        if (ph) ph.textContent = phaseMsg;
+        if (btn) { btn.disabled = true; btn.textContent = 'GUNAKAN SERVER HTTPS'; }
+      }
+      if (window.location && window.location.protocol === 'file:') {
+        showFallbackPanel(
+          'Browser memblokir modul ES6 jika dibuka dari file:// lokal.',
+          'Buka lewat https://ashazeneca-botanalistiktl.hf.space atau GitHub Pages.'
+        );
+      } else {
+        window.setTimeout(function () {
+          if (!window.__RAPSONYX_BOOT_STARTED__) {
+            showFallbackPanel(
+              'Memuat ulang modul aplikasi...',
+              'Koneksi lambat atau terhambat — coba refresh halaman ini.'
+            );
+          }
+        }, 6000);
+      }
+    })();
+  </script>
 
   <!-- Stage 2: Luminous Frost Loading Screen & Gatekeeper -->
   <section id="pre-entry-screen" class="hidden" aria-label="Pemuatan Starter Pack RAPSONYX">

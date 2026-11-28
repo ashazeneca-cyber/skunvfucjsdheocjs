@@ -558,11 +558,16 @@ export async function bootAndEnterLobby() {
 }
 
 if (!window.__RAPSONYX_BOOT_MANAGED__) {
-  window.addEventListener('DOMContentLoaded', () => {
+  const startStandalone = () => {
     const app = new RapsonyxGameApp();
     window.__RAPSONYX_APP__ = app;
     app.boot().catch((err) => {
       console.error('[RAPSONYX] Boot error:', err);
     });
-  });
+  };
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', startStandalone, { once: true });
+  } else {
+    startStandalone();
+  }
 }

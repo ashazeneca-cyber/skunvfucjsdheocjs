@@ -26,7 +26,7 @@ class RankSystemService {
   async loadData() {
     if (this._loaded) return this.tiers;
     try {
-      const res = await fetch('/data/ranks_achievements.json', { cache: 'no-cache' });
+      const res = await fetch(new URL('../../data/ranks_achievements.json', import.meta.url), { cache: 'no-cache' });
       if (res.ok) {
         const json = await res.json();
         if (Array.isArray(json.tiers) && json.tiers.length) {

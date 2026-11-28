@@ -399,6 +399,10 @@ class AssetRegistryService {
   async diagnoseCdnHealth() {
     if (this._healthPromise) return this._healthPromise;
     this._healthPromise = (async () => {
+      if (typeof window !== 'undefined' && window.location?.hostname?.endsWith('github.io')) {
+        this._preferBackendRoute = true;
+        return { mode: 'hf-failover', details: { backendOrigin: BACKEND_ORIGIN } };
+      }
       try {
         const res = await fetch('/api/health', { signal: AbortSignal.timeout(5000) });
         if (res.ok) {

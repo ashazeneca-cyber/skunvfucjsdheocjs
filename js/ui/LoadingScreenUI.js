@@ -45,16 +45,6 @@ export class LoadingScreenUI {
       this.rapsonyxSvgEl.classList.add('active');
     }
 
-    // Apply Priority-0 cached background blob immediately
-    if (this.bgLayerEl) {
-      const bgUrl = bootMedia?.bgUrl || (await AssetRegistry.getBlobUrl('bg_loading_main', 'image/webp').catch(() => AssetRegistry.toCdnUrl('bg_loading_main')));
-      this.bgLayerEl.style.backgroundImage = `url("${bgUrl}")`;
-      this.bgLayerEl.classList.add('loaded');
-    }
-
-    // Start Priority-0 BGM (gracefully waits for gesture if browser autoplay blocked)
-    AudioDirector.playLoadingBgm().catch(() => {});
-
     if (this.muteBtn) {
       this._syncMuteLabel();
       this.muteBtn.addEventListener('click', () => {
@@ -63,9 +53,6 @@ export class LoadingScreenUI {
       });
     }
 
-    this._rotateTip();
-    this.tipTimer = window.setInterval(() => this._rotateTip(), 4200);
-
     if (this.enterBtn) {
       this.enterBtn.disabled = true;
       this.enterBtn.addEventListener('click', () => this._handleEnterClicked());
@@ -73,6 +60,31 @@ export class LoadingScreenUI {
     if (this.retryBtn) {
       this.retryBtn.addEventListener('click', () => this.startDownloadSequence());
     }
+
+    // Resolve Priority-0 background + BGM in parallel so Gatekeeper starts immediately
+    Promise.resolve(bootMedia?.priority2Promise || bootMedia)
+      .then(async (resolved) => {
+        if (this.bgLayerEl) {
+          const bgUrl =
+            resolved?.bgUrl ||
+            (await AssetRegistry.getBlobUrl('bg_loading_main', 'image/webp').catch(() =>
+              AssetRegistry.toCdnUrl('bg_loading_main')
+            ));
+          if (bgUrl) {
+            this.bgLayerEl.style.backgroundImage = `url("${bgUrl}")`;
+            this.bgLayerEl.classList.add('loaded');
+          }
+        }
+        AudioDirector.playLoadingBgm().catch(() => {});
+      })
+      .catch(() => {});
+
+    AssetRegistry.diagnoseCdnHealth()
+      .catch(() => {})
+      .then(() => {
+        this._rotateTip();
+        this.tipTimer = window.setInterval(() => this._rotateTip(), 4200);
+      });
 
     await this.checkAndPrepareGate();
   }
