@@ -1,0 +1,15 @@
+name = "rapsonyx"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "."
+
+[vars]
+RAPSONYX_ORIGIN_REPO = "ashazeneca/onyxpure-live-cdn"
+RAPSONYX_ORIGIN_BRANCH = "main"
+RAPSONYX_CACHE_TTL = "31536000"
+RAPSONYX_DISABLE_VOICE = "true"
+RAPSONYX_BACKEND_HTTP = "https://ashazeneca-botanalistiktl.hf.space"
+RAPSONYX_BACKEND_WS = "wss://ashazeneca-botanalistiktl.hf.space"
+
+# WAJIB simpan token privat lewat Cloudflare Secret dengan nama seragam:
+# npx wrangler pages secret put RAPSONYX_SECRET --project-name=rapsonyx

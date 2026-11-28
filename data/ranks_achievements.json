@@ -1,0 +1,33 @@
+{
+  "version": "5.1.0",
+  "starIconKey": "rank_star",
+  "tiers": [
+    { "id": "trainee", "tierIndex": 1, "name": "Trainee", "divisions": ["III", "II", "I"], "starsPerDivision": 3, "iconKey": "rank_01_trainee", "minStars": 0, "accent": "#94a3b8" },
+    { "id": "rookie", "tierIndex": 2, "name": "Rookie", "divisions": ["III", "II", "I"], "starsPerDivision": 3, "iconKey": "rank_02_rookie", "minStars": 9, "accent": "#38bdf8" },
+    { "id": "rising_star", "tierIndex": 3, "name": "Rising Star", "divisions": ["IV", "III", "II", "I"], "starsPerDivision": 4, "iconKey": "rank_03_rising_star", "minStars": 18, "accent": "#22d3ee" },
+    { "id": "senbatsu", "tierIndex": 4, "name": "Senbatsu", "divisions": ["IV", "III", "II", "I"], "starsPerDivision": 4, "iconKey": "rank_04_senbatsu", "minStars": 34, "accent": "#0284c7" },
+    { "id": "center", "tierIndex": 5, "name": "Center", "divisions": ["V", "IV", "III", "II", "I"], "starsPerDivision": 5, "iconKey": "rank_05_center", "minStars": 50, "accent": "#2563eb" },
+    { "id": "ace", "tierIndex": 6, "name": "Ace", "divisions": ["V", "IV", "III", "II", "I"], "starsPerDivision": 5, "iconKey": "rank_06_ace", "minStars": 75, "accent": "#10b981" },
+    { "id": "legend", "tierIndex": 7, "name": "Legend", "divisions": ["V", "IV", "III", "II", "I"], "starsPerDivision": 5, "iconKey": "rank_07_legend", "minStars": 100, "accent": "#34d399" },
+    { "id": "mythic", "tierIndex": 8, "name": "Mythic", "divisions": ["Honor"], "starsPerDivision": 25, "iconKey": "rank_08_mythic", "minStars": 125, "accent": "#0ea5e9" },
+    { "id": "sovereign", "tierIndex": 9, "name": "Rapsonyx Sovereign", "divisions": ["Immortal"], "starsPerDivision": 9999, "iconKey": "rank_09_sovereign", "minStars": 150, "accent": "#06b6d4" }
+  ],
+  "achievements": [
+    { "id": "first_blood", "title": "Pembuka Skor Pertama", "description": "Raih First Blood di dalam pertandingan Ranked atau Classic.", "iconKey": "badge_first_blood", "target": 1 },
+    { "id": "shield_breaker", "title": "Penghancur Perisai Kristal", "description": "Hancurkan mekanisme 2-Stage Shield Lock (Crystal & Base Nexus).", "iconKey": "badge_shield_break", "target": 3 },
+    { "id": "mvp_crown", "title": "Bintang Utama Arena", "description": "Kumpulkan gelar MVP pada akhir pertandingan tim.", "iconKey": "badge_mvp", "target": 5 },
+    { "id": "savage_streak", "title": "Dominasi Tanpa Tanding", "description": "Cetak rentetan eliminasi cepat Savage dalam satu teamfight.", "iconKey": "badge_savage", "target": 1 },
+    { "id": "team_wipe_master", "title": "Sapu Bersih Panggung", "description": "Lumpuhkan seluruh tim lawan secara serentak bersama rekan tim.", "iconKey": "badge_team_wipe", "target": 2 },
+    { "id": "world_explorer", "title": "Penjelajah 11.11 km", "description": "Berinteraksi dan selesaikan ekspedisi di mode Open World 11.11 km.", "iconKey": "chest_legend", "target": 1 }
+  ],
+  "statusGlossary": [
+    { "id": "stun", "label": "Stun", "iconKey": "status_stun", "description": "Menghentikan gerakan, serangan, dan aktivasi skill target." },
+    { "id": "slow", "label": "Slow", "iconKey": "status_slow", "description": "Mengurangi Movement Speed target sementara." },
+    { "id": "shield", "label": "Shield", "iconKey": "status_shield", "description": "Menyerap sejumlah damage sebelum mengurangi HP utama." },
+    { "id": "heal", "label": "Heal", "iconKey": "status_heal", "description": "Memulihkan HP sekutu secara instan atau berkala." },
+    { "id": "burn", "label": "Burn", "iconKey": "status_burn", "description": "Memberikan Magic Damage berkelanjutan tiap detik." },
+    { "id": "armor_shred", "label": "Armor Shred", "iconKey": "status_armor_shred", "description": "Menurunkan Physical Defense target secara bertumpuk." },
+    { "id": "invulnerable", "label": "Invulnerable", "iconKey": "status_invulnerable", "description": "Kebal terhadap seluruh damage dan Crowd Control." },
+    { "id": "suppress", "label": "Suppress", "iconKey": "status_suppress", "description": "Mengunci mutlak target sehingga tidak dapat dihapus oleh Purify." }
+  ]
+}

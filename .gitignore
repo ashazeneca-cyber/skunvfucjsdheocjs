@@ -1,0 +1,21 @@
+# Dependencies & builds
+node_modules/
+server/node_modules/
+server/dist/
+server-java/target/
+
+# Environment secrets & local caches
+.env
+.env.*
+*.local
+.wrangler/
+.cache/
+__pycache__/
+*.pyc
+
+# Logs & scratch artifacts
+*.log
+tmp/
+dist-debug/
+.DS_Store
+Thumbs.db

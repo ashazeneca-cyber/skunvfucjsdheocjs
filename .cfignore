@@ -1,0 +1,7 @@
+# Ignore backend servers & local dev files from Cloudflare Pages static deployment
+server/
+server-java/
+scripts/
+.wrangler/
+node_modules/
+*.log

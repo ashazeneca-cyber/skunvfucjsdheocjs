@@ -1,0 +1,184 @@
+/* RAPSONYX Native Top-Layer <dialog> Modals — Luminous Frost Glassmorphism */
+
+dialog.rap-dialog {
+  width: min(820px, 95vw);
+  max-height: 88dvh;
+  margin: auto;
+  padding: 0;
+  border-radius: 20px;
+  background: var(--frost-glass-heavy);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--frost-border-bright);
+  box-shadow: 0 24px 60px rgba(2, 132, 199, 0.24);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+/* Scoping flex layout strictly to open dialogs so close() works natively */
+dialog.rap-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: rapsonyxFadeIn 0.16s ease-out;
+}
+
+dialog.rap-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.rap-dialog::backdrop {
+  background: rgba(15, 34, 58, 0.36);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.rap-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--frost-border);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.rap-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--sky-primary);
+  margin: 0;
+}
+
+.rap-modal-body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rap-modal-footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--frost-border);
+  background: rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.rap-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--frost-border);
+}
+
+.hero-confirm-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.hero-confirm-portrait {
+  width: 150px;
+  height: 200px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1.5px solid var(--sky-bright);
+}
+
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.breakdown-pill {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--frost-border);
+  font-size: 0.78rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 8px;
+}
+
+.shop-item-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--frost-border);
+  cursor: pointer;
+  content-visibility: auto;
+  contain-intrinsic-size: 195px 62px;
+  transition: border-color 0.14s ease, transform 0.14s ease;
+}
+
+.shop-item-card:hover {
+  border-color: var(--sky-primary);
+  transform: translateY(-1px);
+}
+
+.shop-item-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.profile-build-slots {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.build-slot-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--frost-border-bright);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.build-slot-btn.active-slot {
+  border-style: solid;
+  border-color: var(--crystal-blue);
+  background: rgba(224, 242, 254, 0.9);
+}
+
+.build-slot-btn img {
+  width: 36px;
+  height: 36px;
+  border-radius: 7px;
+  object-fit: cover;
+}

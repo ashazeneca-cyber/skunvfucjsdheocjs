@@ -1,557 +1,518 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Freya - Team Dream | 3D Web Arena</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-    body, html { width: 100%; height: 100%; overflow: hidden; background: #0b0f19; font-family: 'Segoe UI', system-ui, sans-serif; color: #fff; }
-    #canvas-container { position: fixed; inset: 0; touch-action: none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0284c7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RAPSONYX">
+  <meta property="og:description" content="RAPSONYX — 3D Action Arena &amp; Open-World 11,11 km Engine">
+  <meta property="og:image" content="startup/logo%20pembuat.png">
+  <title>RAPSONYX</title>
 
-    /* HUD Atas */
-    .hud-top {
-      position: fixed; top: 14px; left: 16px; right: 16px;
-      display: flex; justify-content: space-between; align-items: center;
-      pointer-events: none; z-index: 10; gap: 10px;
-    }
-    .hero-badge {
-      background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(8px);
-      border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 12px;
-      padding: 8px 14px; pointer-events: auto;
-    }
-    .hero-badge h1 { font-size: 14px; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px; }
-    .hero-badge p { font-size: 11px; color: #cbd5e1; margin-top: 2px; }
+  <link rel="icon" type="image/png" href="startup/logo%20pembuat.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Marcellus&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Trade+Winds&display=swap" rel="stylesheet">
 
-    .upload-btn {
-      background: linear-gradient(135deg, #0284c7, #2563eb);
-      border: 1px solid rgba(255,255,255,0.25); color: #fff;
-      padding: 9px 14px; border-radius: 10px; font-size: 12px; font-weight: 600;
-      cursor: pointer; pointer-events: auto; white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
-    }
-    .upload-btn:active { transform: scale(0.96); }
-
-    /* Analog Virtual Kiri Bawah */
-    #joystick-zone {
-      position: fixed; bottom: 26px; left: 26px; width: 130px; height: 130px;
-      border-radius: 50%; background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(56, 189, 248, 0.45); backdrop-filter: blur(4px);
-      touch-action: none; z-index: 20; display: flex; align-items: center; justify-content: center;
-    }
-    #joystick-knob {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #7dd3fc, #0284c7);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
-      transform: translate(0px, 0px); transition: transform 0.05s linear;
-    }
-
-    /* Tombol Skill Kanan Bawah */
-    .skills-container {
-      position: fixed; bottom: 26px; right: 26px;
-      display: flex; gap: 12px; align-items: flex-end; z-index: 20;
-    }
-    .skill-btn {
-      position: relative; width: 64px; height: 64px; border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      background: rgba(15, 23, 42, 0.85); color: #fff;
-      font-weight: 700; cursor: pointer; overflow: hidden;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5); touch-action: manipulation;
-    }
-    .skill-btn:active { transform: scale(0.92); }
-    .skill-btn.ult { width: 78px; height: 78px; border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.45); }
-    .skill-key { font-size: 16px; color: #38bdf8; }
-    .skill-btn.ult .skill-key { font-size: 20px; color: #fbbf24; }
-    .skill-name { font-size: 9px; color: #cbd5e1; margin-top: 2px; }
-    .cd-overlay {
-      position: absolute; inset: 0; background: rgba(0, 0, 0, 0.72);
-      display: none; align-items: center; justify-content: center;
-      font-size: 16px; font-weight: 800; color: #fff;
-    }
-
-    #loading-toast {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: rgba(15, 23, 42, 0.92); border: 1px solid #38bdf8;
-      padding: 14px 22px; border-radius: 12px; font-size: 13px; z-index: 30;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/animations_calligraphy.css">
+  <link rel="stylesheet" href="css/loading_lobby.css">
+  <link rel="stylesheet" href="css/combat_hud.css">
+  <link rel="stylesheet" href="css/modals_menus.css">
 
   <script type="importmap">
     {
       "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
       }
     }
   </script>
 </head>
-<body>
-  <div id="canvas-container"></div>
+<body data-scene="splash">
+  <!-- WebGL 3D Canvas -->
+  <canvas id="rapsonyx-webgl-canvas" aria-label="RAPSONYX 3D Engine Viewport"></canvas>
 
-  <div class="hud-top">
-    <div class="hero-badge">
-      <h1 id="hero-title">Freya - Team Dream</h1>
-      <p id="status-text">Memuat model 3D...</p>
+  <!-- Mobile Portrait Guard Overlay -->
+  <div id="portrait-guard-overlay" class="hidden" role="alert" aria-labelledby="portrait-title">
+    <svg class="rotate-phone-svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5">
+      <rect x="18" y="8" width="28" height="48" rx="4" />
+      <path d="M10 30c0-11 8-20 19-22m0 0l-4-4m4 4l-4 4" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <h2 id="portrait-title" style="font-family:var(--font-display);margin:0;color:var(--sky-primary);">Putar Layar ke Landscape</h2>
+    <p style="max-width:340px;color:var(--text-secondary);margin:0;font-size:0.9rem;">
+      RAPSONYX didesain optimal dalam orientasi mendatar (Landscape Fullscreen) agar kontrol aksi &amp; visual 3D tampil penuh.
+    </p>
+    <button id="btn-portrait-fullscreen" type="button" class="rap-btn rap-btn-crystal">Masuk Layar Penuh Landscape</button>
+  </div>
+
+  <!-- Stage 1: Black Splash Screen & Priority-0 Prefetch -->
+  <section id="splash-intro-screen" data-stage="black" aria-label="Splash Intro RAPSONYX">
+    <img src="startup/logo%20pembuat.png" alt="Komunitas Pembuat RAPSONYX" class="splash-maker-logo" fetchpriority="high" decoding="async">
+  </section>
+
+  <!-- Stage 2: Luminous Frost Loading Screen & Gatekeeper -->
+  <section id="pre-entry-screen" class="hidden" aria-label="Pemuatan Starter Pack RAPSONYX">
+    <div id="pre-entry-bg-layer" class="pre-entry-bg-layer" aria-hidden="true"></div>
+
+    <header class="pre-entry-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="rap-brand-pill">
+          <img src="startup/logo%20pembuat.png" alt="Logo Pembuat" class="maker-pill-icon">
+          <span>NAI ENGINE</span>
+        </div>
+        <button id="btn-loading-mute" type="button" class="rap-btn" style="min-height:34px;padding:4px 10px;font-size:0.74rem;" title="Matikan/Hidupkan Suara">Suara: Nyala</button>
+      </div>
+      <div class="startup-right-logos" aria-label="Logo Resmi &amp; Team RAPSONYX">
+        <img src="startup/logo%20samping.jpg" alt="JKT48" class="startup-side-logo">
+        <img src="startup/Passion.png" alt="Team Passion" class="startup-team-logo">
+        <img src="startup/dream.png" alt="Team Dream" class="startup-team-logo">
+        <img src="startup/love.png" alt="Team Love" class="startup-team-logo">
+      </div>
+    </header>
+
+    <div class="pre-entry-center">
+      <svg id="pre-entry-rapsonyx-svg" class="rap-calligraphy-svg" viewBox="0 0 760 140" role="img" aria-label="RAPSONYX">
+        <defs>
+          <linearGradient id="rapsonyxFrostGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0284c7" />
+            <stop offset="35%" stop-color="#22d3ee" />
+            <stop offset="70%" stop-color="#10b981" />
+            <stop offset="100%" stop-color="#2563eb" />
+          </linearGradient>
+        </defs>
+        <text x="108" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 0;">R</text>
+        <text x="186" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 1;">A</text>
+        <text x="262" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 2;">P</text>
+        <text x="338" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 3;">S</text>
+        <text x="416" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 4;">O</text>
+        <text x="496" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 5;">N</text>
+        <text x="574" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 6;">Y</text>
+        <text x="652" y="98" text-anchor="middle" font-family="'Trade Winds', 'Marcellus', cursive" font-size="82" class="rap-calligraphy-char" style="--char-i: 7;">X</text>
+      </svg>
+      <div class="pre-entry-subtitle">Luminous Frost Arena &amp; 11.11 km Open World</div>
     </div>
-    <label class="upload-btn">
-      📂 Tes File .GLB
-      <input type="file" id="glb-input" accept=".glb,.gltf" hidden />
-    </label>
-  </div>
 
-  <div id="loading-toast">⏳ Memuat freyadream.glb...</div>
+    <div class="pre-entry-footer">
+      <div class="pre-entry-tip-box frost-panel">
+        <img id="pre-entry-tip-img" src="startup/logo%20samping.jpg" alt="Tips Pertarungan">
+        <div id="pre-entry-tip-text">Mempersiapkan ringkasan sistem RAPSONYX...</div>
+      </div>
 
-  <div id="joystick-zone"><div id="joystick-knob"></div></div>
+      <div class="pre-entry-gate-card frost-panel">
+        <div class="gate-status-row">
+          <span id="pre-entry-status-text" class="tabular-nums" role="status" aria-live="polite">MEMERIKSA PAKET UTAMA...</span>
+          <span id="pre-entry-phase-label" style="font-size:0.74rem;color:var(--text-muted);text-align:right;">NAI Engine</span>
+        </div>
+        <div class="gate-progress-track">
+          <div id="pre-entry-progress-fill" class="gate-progress-fill"></div>
+        </div>
+        <div class="gate-actions-row">
+          <button id="btn-retry-starter" type="button" class="rap-btn hidden">Muat Ulang Unduhan</button>
+          <button id="btn-enter-rapsonyx" type="button" class="rap-btn rap-btn-crystal" style="flex:1;" disabled>
+            MENUNGGU ASET WAJIB...
+          </button>
+        </div>
+      </div>
 
-  <div class="skills-container">
-    <button class="skill-btn" id="btn-q">
-      <span class="skill-key">Q</span>
-      <span class="skill-name">STRIKE</span>
-      <div class="cd-overlay" id="cd-q"></div>
-    </button>
-    <button class="skill-btn" id="btn-w">
-      <span class="skill-key">W</span>
-      <span class="skill-name">SHIELD</span>
-      <div class="cd-overlay" id="cd-w"></div>
-    </button>
-    <button class="skill-btn ult" id="btn-r">
-      <span class="skill-key">R</span>
-      <span class="skill-name">ULTIMATE</span>
-      <div class="cd-overlay" id="cd-r"></div>
-    </button>
-  </div>
+      <div aria-hidden="true"></div>
+    </div>
+  </section>
 
-  <script type="module">
-    import * as THREE from 'three';
-    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-    import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-    import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+  <!-- Stage 3: MOBA-Style Luminous Frost Lobby UI -->
+  <main id="lobby-ui" class="hidden" aria-label="Lobby Showcase RAPSONYX">
+    <header class="lobby-topbar">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div class="lobby-top-group frost-panel">
+          <img src="startup/logo%20pembuat.png" alt="NAI Engine" class="maker-pill-icon" style="width:22px;height:22px;">
+          <strong style="font-family:var(--font-brand);letter-spacing:0.1em;color:var(--sky-primary);">RAPSONYX</strong>
+        </div>
+        <button id="lobby-profile-chip" type="button" class="lobby-profile-chip frost-panel" title="Buka Profil, Rank &amp; Pencapaian">
+          <img id="lobby-profile-avatar" src="startup/logo%20pembuat.png" alt="Avatar">
+          <div style="text-align:left;line-height:1.15;">
+            <div id="lobby-profile-nick" style="font-size:0.8rem;font-weight:800;">Commander</div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--sky-primary);font-weight:700;">
+              <img id="lobby-rank-icon" class="rap-icon-img" style="width:16px;height:16px;" alt="Rank">
+              <span id="lobby-rank-name">Rookie II</span>
+              <span id="lobby-rank-stars" class="tabular-nums">(12 Bintang)</span>
+            </div>
+          </div>
+        </button>
+        <span id="lobby-online-pill" class="filter-chip tabular-nums" style="pointer-events:auto;">Cloud: Siap</span>
+      </div>
 
-    const DEFAULT_MODEL_URL = './models/freyadream.glb';
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+        <div class="lobby-top-group frost-panel" style="padding:4px 8px;">
+          <button id="btn-lobby-mute" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;font-size:0.74rem;">Suara</button>
+          <button id="btn-lobby-profile" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;font-size:0.74rem;">Profil &amp; Rank</button>
+          <button id="btn-lobby-dm" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;font-size:0.74rem;">Unduhan</button>
+          <button id="btn-lobby-settings" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;font-size:0.74rem;">Pengaturan</button>
+        </div>
+        <div class="startup-right-logos" aria-label="Logo Team RAPSONYX">
+          <img src="startup/logo%20samping.jpg" alt="JKT48" class="startup-side-logo" style="height:26px;">
+          <img src="startup/Passion.png" alt="Team Passion" class="startup-team-logo" style="height:28px;">
+          <img src="startup/dream.png" alt="Team Dream" class="startup-team-logo" style="height:28px;">
+          <img src="startup/love.png" alt="Team Love" class="startup-team-logo" style="height:28px;">
+        </div>
+      </div>
+    </header>
 
-    // 1. Setup Scene & Renderer
-    const container = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0b0f19);
-    scene.fog = new THREE.FogExp2(0x0b0f19, 0.032);
+    <div class="lobby-main-split">
+      <!-- Left: 42 Hero Roster -->
+      <aside class="lobby-panel frost-panel" aria-label="Daftar 42 Hero RAPSONYX">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+          <strong style="font-family:var(--font-display);font-size:0.92rem;color:var(--sky-primary);">42 HERO ROSTER</strong>
+          <input id="lobby-hero-search" type="search" placeholder="Cari hero..." aria-label="Cari Hero" class="frost-input" style="width:120px;">
+        </div>
+        <div class="roster-filters">
+          <button type="button" class="filter-chip active" data-team-filter="all">Semua</button>
+          <button type="button" class="filter-chip" data-team-filter="team_dream">Dream</button>
+          <button type="button" class="filter-chip" data-team-filter="team_love">Love</button>
+          <button type="button" class="filter-chip" data-team-filter="team_passion">Passion</button>
+        </div>
+        <div id="lobby-roster-grid" class="roster-grid"></div>
+      </aside>
 
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    container.appendChild(renderer.domElement);
+      <!-- Center: Unobstructed 3D Stand Turntable & Skill Test Controls -->
+      <section id="lobby-turntable-surface" class="lobby-center-stage" aria-label="Panggung Hero 3D">
+        <div id="pedestal-ring-hud" class="pedestal-ring-hud hidden">
+          <svg width="86" height="86" viewBox="0 0 86 86" class="hero-dl-ring-svg">
+            <circle cx="43" cy="43" r="36" class="hero-dl-ring-bg" />
+            <circle id="pedestal-ring-fg" cx="43" cy="43" r="36" class="hero-dl-ring-fg" />
+          </svg>
+          <div id="pedestal-ring-pct" class="tabular-nums" style="font-weight:800;font-size:1rem;color:var(--sky-primary);">0%</div>
+          <div id="pedestal-ring-label" style="font-size:0.78rem;color:var(--text-secondary);font-weight:700;">MENGUNDUH 0%</div>
+          <button id="pedestal-ring-abort" type="button" class="rap-btn rap-btn-danger" style="min-height:30px;padding:4px 12px;font-size:0.74rem;">BATAL</button>
+        </div>
 
-    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 1.3);
-    scene.add(hemiLight);
+        <div class="hero-showcase-plate frost-panel">
+          <div class="showcase-plate-top">
+            <div style="min-width:0;">
+              <div id="showcase-hero-name" style="font-family:var(--font-display);font-size:1.15rem;font-weight:800;color:var(--sky-primary);">Freya</div>
+              <div id="showcase-hero-meta" style="font-size:0.78rem;font-weight:700;">Team Dream • Fighter / EXP Lane</div>
+              <div id="showcase-hero-weapon" style="font-size:0.72rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Valkyrie Twin Skyblades</div>
+            </div>
+            <div id="showcase-hero-skills" style="display:flex;gap:5px;flex-shrink:0;"></div>
+          </div>
+          <div class="showcase-test-row">
+            <div style="display:flex;gap:5px;">
+              <button id="btn-test-s1" type="button" class="filter-chip">Uji S1</button>
+              <button id="btn-test-s2" type="button" class="filter-chip">Uji S2</button>
+              <button id="btn-test-ult" type="button" class="filter-chip active">Uji ULT</button>
+            </div>
+            <button id="btn-hero-bio" type="button" class="rap-btn" style="min-height:28px;padding:3px 10px;font-size:0.72rem;">Bio &amp; Lore Hero</button>
+          </div>
+        </div>
+      </section>
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 2.2);
-    dirLight.position.set(6, 12, 8);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.set(2048, 2048);
-    dirLight.shadow.camera.near = 1;
-    dirLight.shadow.camera.far = 35;
-    const d = 10;
-    dirLight.shadow.camera.left = -d; dirLight.shadow.camera.right = d;
-    dirLight.shadow.camera.top = d; dirLight.shadow.camera.bottom = -d;
-    scene.add(dirLight);
+      <!-- Right: Mode, Private Room, Spell, Emblem, Build & Launch -->
+      <aside class="lobby-panel frost-panel" aria-label="Pilih Peta &amp; Mode Pertandingan">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong style="font-family:var(--font-display);font-size:0.9rem;color:var(--sky-primary);">ARENA &amp; DUNIA</strong>
+          <div style="display:flex;gap:4px;">
+            <button type="button" class="filter-chip active" data-squad-mode="SOLO">Solo</button>
+            <button type="button" class="filter-chip" data-squad-mode="DUO">Duo</button>
+            <button type="button" class="filter-chip" data-squad-mode="SQUAD">Squad</button>
+          </div>
+        </div>
 
-    // 2. Arena Lantai
-    const floor = new THREE.Mesh(
-      new THREE.CircleGeometry(24, 64),
-      new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.7, metalness: 0.2 })
-    );
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add(floor);
+        <div id="lobby-map-list" class="mode-select-list"></div>
 
-    const grid = new THREE.GridHelper(44, 44, 0x38bdf8, 0x1e293b);
-    grid.position.y = 0.01;
-    scene.add(grid);
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input id="lobby-room-code" type="text" maxlength="6" placeholder="Kode Room Privat (opsional)" aria-label="Kode Room Privat 6 Karakter" class="frost-input" style="flex:1;text-transform:uppercase;">
+          <button id="btn-room-create" type="button" class="rap-btn" style="min-height:30px;padding:4px 8px;font-size:0.72rem;">Buat Kode</button>
+        </div>
 
-    // 3. Loader GLB + Draco + Meshopt
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.setDRACOLoader(dracoLoader);
-    gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;">
+          <select id="lobby-spell-select" aria-label="Battle Spell" class="frost-select"></select>
+          <select id="lobby-emblem-select" aria-label="Emblem Set" class="frost-select"></select>
+        </div>
 
-    const heroRoot = new THREE.Group();
-    scene.add(heroRoot);
+        <div style="display:flex;gap:6px;align-items:center;">
+          <select id="lobby-atmo-select" aria-label="Preset Cuaca &amp; Pencahayaan" class="frost-select" style="flex:1;">
+            <option value="rapsonyx_day">Atmosfer: Siang Seimbang</option>
+            <option value="rapsonyx_morning">Atmosfer: Fajar Cerah</option>
+            <option value="rapsonyx_mist">Atmosfer: Kabut Mist</option>
+            <option value="rapsonyx_sunset">Atmosfer: Senja Emas</option>
+            <option value="rapsonyx_night">Atmosfer: Malam Bulan</option>
+          </select>
+          <button id="btn-open-build" type="button" class="rap-btn" style="min-height:30px;padding:4px 8px;font-size:0.72rem;">Build 6</button>
+        </div>
 
-    let activeModel = null;
-    let mixer = null;
-    let actions = { idle: null, run: null, skillQ: null, skillW: null, skillR: null };
-    let currentAction = null;
-    let isCasting = false;
+        <button id="btn-launch-game" type="button" class="rap-btn rap-btn-crystal" style="width:100%;min-height:44px;font-size:0.94rem;">
+          MULAI PERTEMPURAN / JELAJAH
+        </button>
+      </aside>
+    </div>
+  </main>
 
-    function playAction(action, loopOnce = false, timeScale = 1.0) {
-      if (!action || currentAction === action) return;
-      if (currentAction) currentAction.fadeOut(0.2);
-      action.reset();
-      action.timeScale = timeScale;
-      if (loopOnce) {
-        action.setLoop(THREE.LoopOnce, 1);
-        action.clampWhenFinished = true;
-      } else {
-        action.setLoop(THREE.LoopRepeat, Infinity);
-      }
-      action.fadeIn(0.2).play();
-      currentAction = action;
-    }
+  <!-- VS Match Loading Screen -->
+  <section id="vs-loading-screen" class="hidden" aria-label="Layar VS Pertandingan">
+    <div style="position:relative;z-index:2;text-align:center;">
+      <h2 id="vs-map-title" style="font-family:var(--font-display);margin:0;color:var(--sky-primary);">RAPSONYX Grand Colosseum</h2>
+    </div>
+    <div id="vs-grid-container" class="vs-grid-container"></div>
+    <div style="position:relative;z-index:2;width:min(540px,92vw);margin:0 auto;">
+      <div id="vs-load-status" style="font-size:0.84rem;font-weight:700;margin-bottom:6px;text-align:center;">MEMPERSIAPKAN ARENA...</div>
+      <div class="gate-progress-track"><div id="vs-load-fill" class="gate-progress-fill"></div></div>
+    </div>
+  </section>
 
-    function buildFallbackHero() {
-      const group = new THREE.Group();
-      const body = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.32, 0.9, 8, 16),
-        new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 })
-      );
-      body.position.y = 0.85; body.castShadow = true;
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.24, 16, 16),
-        new THREE.MeshStandardMaterial({ color: 0xfde68a })
-      );
-      head.position.y = 1.62; head.castShadow = true;
-      group.add(body, head);
-      return group;
-    }
+  <!-- In-Game Action & Arena HUD -->
+  <section id="ingame-hud" class="hidden" aria-label="HUD Pertempuran RAPSONYX">
+    <div id="floating-damage-layer" aria-hidden="true"></div>
 
-    function setHeroModel(model, animations = [], label = 'Freya - Team Dream') {
-      if (activeModel) heroRoot.remove(activeModel);
-      mixer = null;
-      actions = { idle: null, run: null, skillQ: null, skillW: null, skillR: null };
-      currentAction = null;
+    <div class="hud-top-row">
+      <div class="hud-minimap-box">
+        <img id="hud-minimap-img" alt="Minimap Radar">
+        <canvas id="hud-minimap-canvas" width="168" height="168"></canvas>
+      </div>
 
-      // Auto-scale tinggi karakter ke ~1.8m dan pastikan kaki menapak Y=0
-      const box = new THREE.Box3().setFromObject(model);
-      const size = box.getSize(new THREE.Vector3());
-      const scale = 1.8 / Math.max(size.y, 0.01);
-      model.scale.setScalar(scale);
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div class="hud-scoreboard-pill frost-panel">
+          <strong id="hud-match-timer" class="tabular-nums" style="color:var(--sky-primary);">00:00</strong>
+          <span id="hud-scoreboard-kda" class="tabular-nums" style="font-size:0.82rem;font-weight:700;">KDA 0/0/0</span>
+          <span id="hud-gold-val" class="tabular-nums" style="color:var(--ready-emerald);font-weight:800;font-size:0.84rem;">650 G</span>
+        </div>
+        <div id="hud-event-banner" class="hud-event-banner hidden">FIRST BLOOD!</div>
+      </div>
 
-      const scaledBox = new THREE.Box3().setFromObject(model);
-      const center = scaledBox.getCenter(new THREE.Vector3());
-      model.position.x -= center.x;
-      model.position.z -= center.z;
-      model.position.y -= scaledBox.min.y;
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+          <button id="hud-camera-btn" type="button" class="rap-btn" style="min-height:34px;padding:4px 10px;font-size:0.76rem;">Kamera [V]</button>
+          <button id="hud-shop-btn" type="button" class="rap-btn rap-btn-crystal" style="min-height:34px;padding:4px 12px;font-size:0.78rem;">Toko (30)</button>
+          <button id="hud-settings-btn" type="button" class="rap-btn" style="min-height:34px;padding:4px 10px;font-size:0.78rem;">Pengaturan</button>
+          <button id="hud-lobby-btn" type="button" class="rap-btn rap-btn-danger" style="min-height:34px;padding:4px 10px;font-size:0.78rem;">Lobby</button>
+        </div>
+        <div id="hud-telemetry-badge" class="hud-telemetry-badge tabular-nums hidden">60 FPS</div>
+      </div>
+    </div>
 
-      model.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
+    <div class="hud-bottom-row">
+      <!-- Virtual Analog Joystick -->
+      <div style="display:flex;align-items:flex-end;gap:10px;">
+        <div id="hud-joystick-pad" class="hud-joystick-pad" aria-label="Analog Gerak">
+          <div id="hud-joystick-knob" class="hud-joystick-knob"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button id="hud-jump-btn" type="button" class="rap-btn" style="min-height:36px;padding:4px 10px;font-size:0.76rem;">Lompat / Glider</button>
+          <button id="hud-mount-btn" type="button" class="rap-btn" style="min-height:36px;padding:4px 10px;font-size:0.76rem;">Mount [G]</button>
+        </div>
+      </div>
 
-      heroRoot.add(model);
-      activeModel = model;
-      document.getElementById('hero-title').textContent = label;
+      <!-- Center Vitals Bar -->
+      <div class="hud-center-vitals frost-panel">
+        <div style="width:100%;display:flex;justify-content:space-between;font-size:0.76rem;font-weight:700;">
+          <span id="hud-hero-level" class="tabular-nums" style="color:var(--sky-primary);">Lv.1</span>
+          <span id="hud-hp-text" class="tabular-nums">3000 / 3000</span>
+        </div>
+        <div class="vital-bar-track"><div id="hud-hp-fill" class="vital-hp-fill" style="width:100%;"></div></div>
+        <div class="vital-bar-track" style="height:6px;"><div id="hud-mana-fill" class="vital-mana-fill" style="width:100%;"></div></div>
+      </div>
 
-      if (animations.length > 0) {
-        mixer = new THREE.AnimationMixer(model);
-        const findClip = (keywords) =>
-          animations.find((c) => keywords.some((k) => c.name.toLowerCase().includes(k)));
+      <!-- Right Action & Skill Cluster -->
+      <div class="hud-skills-cluster">
+        <button id="hud-spell-btn" type="button" class="skill-btn-wrap" style="width:46px;height:46px;" title="Battle Spell [F]">
+          <img id="hud-spell-img" alt="Battle Spell">
+          <span id="hud-spell-cd" class="skill-cd-overlay tabular-nums hidden">0</span>
+        </button>
+        <button id="hud-dash-btn" type="button" class="rap-btn" style="border-radius:50%;width:46px;height:46px;padding:0;font-size:0.72rem;" title="Dash [Shift]">DASH</button>
+        <button id="hud-skill1-btn" type="button" class="skill-btn-wrap" title="Skill 1 [Q]">
+          <img id="hud-skill1-img" alt="Skill 1">
+          <span id="hud-skill1-cd" class="skill-cd-overlay tabular-nums hidden">0</span>
+        </button>
+        <button id="hud-skill2-btn" type="button" class="skill-btn-wrap" title="Skill 2 [E]">
+          <img id="hud-skill2-img" alt="Skill 2">
+          <span id="hud-skill2-cd" class="skill-cd-overlay tabular-nums hidden">0</span>
+        </button>
+        <button id="hud-skill3-btn" type="button" class="skill-btn-wrap ult" title="Ultimate [R]">
+          <img id="hud-skill3-img" alt="Ultimate">
+          <span id="hud-skill3-cd" class="skill-cd-overlay tabular-nums hidden">0</span>
+        </button>
+        <div style="display:flex;flex-direction:column;gap:5px;align-items:center;">
+          <div style="display:flex;gap:5px;">
+            <button id="hud-minion-btn" type="button" class="rap-btn" style="min-height:30px;padding:3px 8px;font-size:0.68rem;">Minion</button>
+            <button id="hud-turret-btn" type="button" class="rap-btn" style="min-height:30px;padding:3px 8px;font-size:0.68rem;">Menara</button>
+          </div>
+          <button id="hud-atk-btn" type="button" class="rap-btn rap-btn-crystal" style="border-radius:50%;width:66px;height:66px;font-size:0.78rem;">SERANG</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        const idleClip = findClip(['idle', 'stand', 'breath']) || animations[0];
-        const runClip  = findClip(['run', 'sprint', 'jog', 'walk']) || animations[Math.min(1, animations.length - 1)];
-        const qClip    = findClip(['attack', 'slash', 'punch', 'kick', 'hit']) || animations[0];
-        const wClip    = findClip(['shield', 'defend', 'buff', 'cast', 'magic']) || animations[0];
-        const rClip    = findClip(['ult', 'special', 'jump', 'dance', 'win']) || qClip;
+  <!-- Native <dialog> Modals (Zero ARIA redundancies, closedby="any" light dismiss) -->
+  <dialog id="hero-download-modal" class="rap-dialog" closedby="any" aria-labelledby="hd-hero-name">
+    <div class="rap-modal-header">
+      <h1 class="rap-modal-title">Konfirmasi Unduhan Karakter</h1>
+      <button id="hd-cancel-btn" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;">BATAL</button>
+    </div>
+    <div class="rap-modal-body">
+      <div class="hero-confirm-grid">
+        <img id="hd-portrait" class="hero-confirm-portrait" alt="Potret Hero">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <h2 id="hd-hero-name" style="font-family:var(--font-display);font-size:1.35rem;margin:0;color:var(--sky-primary);">Hero</h2>
+            <div id="hd-hero-meta" style="font-size:0.84rem;font-weight:700;margin-top:4px;">Status: Belum Diunduh</div>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);">
+            Aset hero akan disimpan permanen secara lokal di <code>rapsonyx-db</code> sehingga dapat digunakan instan pada kunjungan berikutnya.
+          </div>
+          <div id="hd-breakdown-grid" class="breakdown-grid"></div>
+        </div>
+      </div>
+    </div>
+    <div class="rap-modal-footer">
+      <button id="hd-confirm-btn" type="button" class="rap-btn rap-btn-crystal">UNDUH &amp; PAKAI</button>
+    </div>
+  </dialog>
 
-        actions.idle   = mixer.clipAction(idleClip);
-        actions.run    = mixer.clipAction(runClip);
-        actions.skillQ = mixer.clipAction(qClip);
-        actions.skillW = mixer.clipAction(wClip);
-        actions.skillR = mixer.clipAction(rClip);
+  <dialog id="download-manager-modal" class="rap-dialog" closedby="any" aria-labelledby="dm-title">
+    <div class="rap-modal-header">
+      <h1 id="dm-title" class="rap-modal-title">Manajer Unduhan RAPSONYX</h1>
+      <button id="dm-close-btn" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;">Tutup</button>
+    </div>
+    <div class="rap-modal-body">
+      <div id="dm-storage-summary" class="tabular-nums" style="padding:10px;border-radius:10px;background:rgba(56,189,248,0.12);border:1px solid var(--frost-border);font-size:0.82rem;"></div>
+      <div id="dm-pack-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+    <div class="rap-modal-footer">
+      <button id="dm-clear-optional-btn" type="button" class="rap-btn rap-btn-danger">Hapus Aset Opsional</button>
+    </div>
+  </dialog>
 
-        mixer.addEventListener('finished', () => {
-          isCasting = false;
-          playAction(moveMag > 0.1 ? actions.run : actions.idle);
-        });
+  <dialog id="settings-modal" class="rap-dialog" closedby="any" aria-labelledby="settings-title">
+    <div class="rap-modal-header">
+      <h1 id="settings-title" class="rap-modal-title">Pengaturan RAPSONYX</h1>
+      <button id="settings-close-btn" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;">Tutup</button>
+    </div>
+    <div class="rap-modal-body">
+      <div class="rap-tabs">
+        <button type="button" class="filter-chip active" data-settings-tab="graphics">Grafis</button>
+        <button type="button" class="filter-chip" data-settings-tab="controls">Kontrol &amp; Layar</button>
+        <button type="button" class="filter-chip" data-settings-tab="audio">Audio</button>
+        <button type="button" class="filter-chip" data-settings-tab="storage">Penyimpanan</button>
+      </div>
 
-        playAction(actions.idle);
-        document.getElementById('status-text').textContent = `✅ ${animations.length} Animasi Aktif • Analog / WASD`;
-      } else {
-        document.getElementById('status-text').textContent = 'Model Statis (Tanpa Animasi) • Analog / WASD';
-      }
-    }
+      <div data-settings-panel="graphics" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="settings-row">
+          <div>
+            <strong>Preset Grafis Adaptif</strong>
+            <div style="font-size:0.76rem;color:var(--text-muted);">Pilih Rendah, Sedang, Tinggi, Ultra, atau deteksi otomatis GPU</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="set-gfx-preset" class="frost-select">
+              <option value="LOW">Rendah</option>
+              <option value="MEDIUM">Sedang</option>
+              <option value="HIGH">Tinggi</option>
+              <option value="ULTRA">Ultra</option>
+              <option value="CUSTOM">Kustom</option>
+            </select>
+            <button id="set-gfx-autodetect" type="button" class="rap-btn rap-btn-crystal" style="min-height:34px;font-size:0.78rem;">Deteksi Otomatis Perangkat</button>
+          </div>
+        </div>
 
-    function loadGLBFromURL(url, label) {
-      const toast = document.getElementById('loading-toast');
-      toast.style.display = 'block';
-      toast.textContent = `⏳ Memuat ${label}...`;
+        <div class="settings-row">
+          <span>Skala Resolusi Render (<span id="set-gfx-scale-val" class="tabular-nums">1.00x</span>)</span>
+          <input id="set-gfx-scale" type="range" min="0.65" max="1.50" step="0.05" value="1.0">
+        </div>
+        <div class="settings-row">
+          <span>Jarak Render Dunia 11.11 km</span>
+          <select id="set-gfx-distance" class="frost-select">
+            <option value="near">Dekat (750m)</option>
+            <option value="medium">Sedang (1.6km)</option>
+            <option value="far">Jauh (3.6km)</option>
+            <option value="horizon">Horizon 100km</option>
+          </select>
+        </div>
+        <label class="settings-row"><span>Selective HDR Bloom</span><input id="set-gfx-bloom" type="checkbox"></label>
+        <label class="settings-row"><span>Outline Karakter Anime</span><input id="set-gfx-outline" type="checkbox"></label>
+        <label class="settings-row"><span>Adaptive Watchdog (&lt;45 FPS Turun Halus)</span><input id="set-gfx-watchdog" type="checkbox"></label>
+        <label class="settings-row"><span>Tampilkan Telemetry FPS &amp; Sektor</span><input id="set-gfx-telemetry" type="checkbox"></label>
+      </div>
 
-      gltfLoader.load(
-        url,
-        (gltf) => {
-          setHeroModel(gltf.scene, gltf.animations, label);
-          toast.style.display = 'none';
-        },
-        (xhr) => {
-          if (xhr.total > 0) {
-            const pct = Math.round((xhr.loaded / xhr.total) * 100);
-            toast.textContent = `⏳ Memuat ${label}... ${pct}%`;
-          }
-        },
-        () => {
-          setHeroModel(buildFallbackHero(), [], 'Model Tidak Ditemukan');
-          document.getElementById('status-text').textContent = '⚠️ Pastikan file ada di models/freyadream.glb (<25MB)';
-          toast.style.display = 'none';
-        }
-      );
-    }
+      <div data-settings-panel="controls" class="hidden" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="settings-row"><span>Sensitivitas Kamera</span><input id="set-cam-sens" type="range" min="0.4" max="2.5" step="0.1" value="1.0"></div>
+        <div class="settings-row"><span>Transparansi HUD</span><input id="set-hud-opacity" type="range" min="0.5" max="1.0" step="0.05" value="0.95"></div>
+        <div class="settings-row">
+          <span>Mode Layar Penuh Landscape</span>
+          <button id="set-toggle-fullscreen" type="button" class="rap-btn">Ubah Layar Penuh</button>
+        </div>
+      </div>
 
-    loadGLBFromURL(DEFAULT_MODEL_URL, 'Freya - Team Dream');
+      <div data-settings-panel="audio" class="hidden" style="display:flex;flex-direction:column;gap:10px;">
+        <label class="settings-row"><span>Matikan Semua Suara (Mute)</span><input id="set-aud-mute" type="checkbox"></label>
+        <div class="settings-row"><span>Volume Master</span><input id="set-aud-master" type="range" min="0" max="1" step="0.05" value="0.85"></div>
+        <div class="settings-row"><span>Musik Latar (BGM)</span><input id="set-aud-bgm" type="range" min="0" max="1" step="0.05" value="0.65"></div>
+        <div class="settings-row"><span>Efek Pertarungan (SFX)</span><input id="set-aud-sfx" type="range" min="0" max="1" step="0.05" value="0.85"></div>
+        <div class="settings-row"><span>Ambien Alam &amp; Bioma</span><input id="set-aud-amb" type="range" min="0" max="1" step="0.05" value="0.6"></div>
+      </div>
 
-    document.getElementById('glb-input').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const blobURL = URL.createObjectURL(file);
-      loadGLBFromURL(blobURL, file.name.replace(/\.[^/.]+$/, ''));
-    });
+      <div data-settings-panel="storage" class="hidden" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="settings-row">
+          <span>Kelola Unduhan Paket Hero, Arena &amp; Open-World (rapsonyx-db)</span>
+          <button id="set-open-dm-btn" type="button" class="rap-btn rap-btn-crystal">Buka Manajer Unduhan</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
 
-    // 4. Efek Skill 3D (VFX)
-    const activeVFX = [];
-    let cameraShake = 0;
+  <dialog id="shop-modal" class="rap-dialog" closedby="any" aria-labelledby="shop-title">
+    <div class="rap-modal-header">
+      <div>
+        <h1 id="shop-title" class="rap-modal-title">Toko Perlengkapan RAPSONYX (30 Item)</h1>
+        <div id="shop-gold-val" class="tabular-nums" style="font-size:0.82rem;color:var(--ready-emerald);font-weight:700;">Gold Anda: 0</div>
+      </div>
+      <button id="shop-close-btn" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;">Tutup</button>
+    </div>
+    <div class="rap-modal-body">
+      <div class="rap-tabs">
+        <button type="button" class="filter-chip active" data-shop-cat="All">Semua</button>
+        <button type="button" class="filter-chip" data-shop-cat="Physical">Fisik</button>
+        <button type="button" class="filter-chip" data-shop-cat="Magic">Magis</button>
+        <button type="button" class="filter-chip" data-shop-cat="Defense">Pertahanan</button>
+        <button type="button" class="filter-chip" data-shop-cat="Boots">Sepatu</button>
+        <button type="button" class="filter-chip" data-shop-cat="Hybrid">Hibrida</button>
+      </div>
+      <div id="shop-items-grid" class="shop-grid"></div>
+    </div>
+  </dialog>
 
-    function triggerSkill(type) {
-      if (isCasting) return;
-      const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), heroRoot.rotation.y);
+  <dialog id="match-result-modal" class="rap-dialog" closedby="any" aria-labelledby="mr-title">
+    <div class="rap-modal-header">
+      <div>
+        <h1 id="mr-title" class="rap-modal-title">HASIL PERTARUNGAN RAPSONYX</h1>
+        <div id="mr-rank-summary" class="tabular-nums" style="font-size:0.82rem;font-weight:700;color:var(--sky-primary);"></div>
+      </div>
+    </div>
+    <div id="mr-scoreboard" class="rap-modal-body"></div>
+    <div class="rap-modal-footer">
+      <button id="mr-exit-btn" type="button" class="rap-btn rap-btn-crystal">Kembali ke Lobby</button>
+    </div>
+  </dialog>
 
-      if (type === 'Q') {
-        if (actions.skillQ) { isCasting = true; playAction(actions.skillQ, true, 1.3); }
-        const slash = new THREE.Mesh(
-          new THREE.TorusGeometry(0.95, 0.08, 12, 32, Math.PI * 1.1),
-          new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.95 })
-        );
-        slash.position.copy(heroRoot.position).add(new THREE.Vector3(0, 1.0, 0)).addScaledVector(forward, 0.8);
-        slash.rotation.set(Math.PI / 2.3, heroRoot.rotation.y, -Math.PI / 2);
-        scene.add(slash);
-        activeVFX.push({ mesh: slash, life: 0.55, vel: forward.clone().multiplyScalar(14), grow: 1.8 });
-      }
+  <dialog id="profile-modal" class="rap-dialog" closedby="any" aria-labelledby="profile-modal-title">
+    <div class="rap-modal-header">
+      <h1 id="profile-modal-title" class="rap-modal-title">Komandan, Bio Hero &amp; Ensiklopedia RAPSONYX</h1>
+      <button id="profile-close-btn" type="button" class="rap-btn" style="min-height:32px;padding:4px 10px;">Tutup</button>
+    </div>
+    <div style="padding:10px 18px;border-bottom:1px solid var(--frost-border);background:rgba(255,255,255,0.55);">
+      <div class="rap-tabs">
+        <button type="button" class="filter-chip active" data-profile-tab="profile">Profil &amp; Rank</button>
+        <button type="button" class="filter-chip" data-profile-tab="bio">Bio 42 Hero</button>
+        <button type="button" class="filter-chip" data-profile-tab="build">Build 6 Slot &amp; Item</button>
+        <button type="button" class="filter-chip" data-profile-tab="achievements">Pencapaian</button>
+        <button type="button" class="filter-chip" data-profile-tab="leaderboard">Peringkat Global</button>
+      </div>
+    </div>
+    <div id="profile-modal-body" class="rap-modal-body"></div>
+  </dialog>
 
-      if (type === 'W') {
-        if (actions.skillW) { isCasting = true; playAction(actions.skillW, true, 1.2); }
-        const shield = new THREE.Mesh(
-          new THREE.SphereGeometry(1.25, 24, 24),
-          new THREE.MeshBasicMaterial({ color: 0x34d399, wireframe: true, transparent: true, opacity: 0.65 })
-        );
-        heroRoot.add(shield);
-        shield.position.set(0, 0.95, 0);
-        activeVFX.push({ mesh: shield, life: 2.2, spin: 3.0, isChild: true });
-      }
-
-      if (type === 'R') {
-        if (actions.skillR) { isCasting = true; playAction(actions.skillR, true, 1.1); }
-        cameraShake = 0.35;
-        const ultGroup = new THREE.Group();
-        ultGroup.position.copy(heroRoot.position).addScaledVector(forward, 2.5);
-
-        const ring = new THREE.Mesh(
-          new THREE.RingGeometry(1.4, 2.2, 48),
-          new THREE.MeshBasicMaterial({ color: 0xfbbf24, side: THREE.DoubleSide, transparent: true, opacity: 0.9 })
-        );
-        ring.rotation.x = -Math.PI / 2;
-        ring.position.y = 0.04;
-        ultGroup.add(ring);
-
-        const pillar = new THREE.Mesh(
-          new THREE.CylinderGeometry(1.3, 1.6, 7, 32, 1, true),
-          new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide, transparent: true, opacity: 0.45 })
-        );
-        pillar.position.y = 3.5;
-        ultGroup.add(pillar);
-
-        scene.add(ultGroup);
-        activeVFX.push({ mesh: ultGroup, life: 1.2, spin: 4.0, grow: 1.3 });
-      }
-    }
-
-    function bindSkillButton(btnId, cdId, keyChar, cooldownSec) {
-      const btn = document.getElementById(btnId);
-      const cdEl = document.getElementById(cdId);
-      let ready = true;
-
-      const activate = () => {
-        if (!ready) return;
-        ready = false;
-        triggerSkill(keyChar);
-        let left = cooldownSec;
-        cdEl.style.display = 'flex';
-        cdEl.textContent = left.toFixed(1);
-        const timer = setInterval(() => {
-          left -= 0.1;
-          if (left <= 0) {
-            clearInterval(timer);
-            cdEl.style.display = 'none';
-            ready = true;
-          } else {
-            cdEl.textContent = left.toFixed(1);
-          }
-        }, 100);
-      };
-      btn.addEventListener('pointerdown', (e) => { e.stopPropagation(); activate(); });
-      return activate;
-    }
-
-    const castQ = bindSkillButton('btn-q', 'cd-q', 'Q', 2.0);
-    const castW = bindSkillButton('btn-w', 'cd-w', 'W', 4.0);
-    const castR = bindSkillButton('btn-r', 'cd-r', 'R', 7.0);
-
-    // 5. Analog Virtual & Keyboard
-    const joyZone = document.getElementById('joystick-zone');
-    const joyKnob = document.getElementById('joystick-knob');
-    let joyInput = { x: 0, y: 0 };
-    let joyPointerId = null;
-
-    function updateJoystick(clientX, clientY) {
-      const rect = joyZone.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const maxR = rect.width * 0.36;
-      let dx = clientX - cx;
-      let dy = clientY - cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist > maxR) {
-        dx = (dx / dist) * maxR;
-        dy = (dy / dist) * maxR;
-      }
-      joyKnob.style.transform = `translate(${dx}px, ${dy}px)`;
-      joyInput.x = dx / maxR;
-      joyInput.y = dy / maxR;
-    }
-
-    joyZone.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      joyPointerId = e.pointerId;
-      joyZone.setPointerCapture(e.pointerId);
-      updateJoystick(e.clientX, e.clientY);
-    });
-    joyZone.addEventListener('pointermove', (e) => {
-      if (e.pointerId === joyPointerId) updateJoystick(e.clientX, e.clientY);
-    });
-    const resetJoystick = (e) => {
-      if (e.pointerId === joyPointerId) {
-        joyPointerId = null;
-        joyKnob.style.transform = 'translate(0px, 0px)';
-        joyInput = { x: 0, y: 0 };
-      }
-    };
-    joyZone.addEventListener('pointerup', resetJoystick);
-    joyZone.addEventListener('pointercancel', resetJoystick);
-
-    const keys = {};
-    window.addEventListener('keydown', (e) => {
-      const k = e.key.toLowerCase();
-      keys[k] = true;
-      if (k === 'q' || k === '1' || k === 'j') castQ();
-      if (k === '2' || k === 'k') castW();
-      if (k === '3' || k === 'l' || k === 'r') castR();
-    });
-    window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
-
-    // 6. Kamera 3rd-Person
-    let camYaw = 0;
-    let camPitch = 0.42;
-    let camDist = 5.2;
-    let camDragId = null;
-    let lastCamPos = { x: 0, y: 0 };
-
-    renderer.domElement.addEventListener('pointerdown', (e) => {
-      camDragId = e.pointerId;
-      lastCamPos = { x: e.clientX, y: e.clientY };
-    });
-    renderer.domElement.addEventListener('pointermove', (e) => {
-      if (e.pointerId !== camDragId) return;
-      camYaw -= (e.clientX - lastCamPos.x) * 0.007;
-      camPitch = Math.max(0.15, Math.min(1.15, camPitch + (e.clientY - lastCamPos.y) * 0.005));
-      lastCamPos = { x: e.clientX, y: e.clientY };
-    });
-    renderer.domElement.addEventListener('pointerup', (e) => { if (e.pointerId === camDragId) camDragId = null; });
-    renderer.domElement.addEventListener('wheel', (e) => {
-      camDist = Math.max(2.5, Math.min(11, camDist + e.deltaY * 0.004));
-    }, { passive: true });
-
-    // 7. Render Loop
-    const clock = new THREE.Clock();
-    let moveMag = 0;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      const dt = Math.min(clock.getDelta(), 0.05);
-
-      let ix = joyInput.x;
-      let iy = joyInput.y;
-      if (keys['a'] || keys['arrowleft']) ix -= 1;
-      if (keys['d'] || keys['arrowright']) ix += 1;
-      if (keys['w'] || keys['arrowup']) iy -= 1;
-      if (keys['s'] || keys['arrowdown']) iy += 1;
-
-      moveMag = Math.min(1, Math.hypot(ix, iy));
-
-      if (moveMag > 0.08) {
-        const angle = Math.atan2(ix, iy) + camYaw;
-        const speed = 5.5 * moveMag;
-        heroRoot.position.x += Math.sin(angle) * speed * dt;
-        heroRoot.position.z += Math.cos(angle) * speed * dt;
-
-        const r = Math.hypot(heroRoot.position.x, heroRoot.position.z);
-        if (r > 22) {
-          heroRoot.position.x *= 22 / r;
-          heroRoot.position.z *= 22 / r;
-        }
-
-        let diff = angle - heroRoot.rotation.y;
-        while (diff > Math.PI) diff -= Math.PI * 2;
-        while (diff < -Math.PI) diff += Math.PI * 2;
-        heroRoot.rotation.y += diff * Math.min(1, dt * 12);
-
-        if (!isCasting && actions.run) playAction(actions.run, false, 0.8 + moveMag * 0.4);
-      } else {
-        if (!isCasting && actions.idle) playAction(actions.idle);
-      }
-
-      if (mixer) mixer.update(dt);
-
-      for (let i = activeVFX.length - 1; i >= 0; i--) {
-        const v = activeVFX[i];
-        v.life -= dt;
-        if (v.vel) v.mesh.position.addScaledVector(v.vel, dt);
-        if (v.spin) v.mesh.rotation.y += v.spin * dt;
-        if (v.grow) v.mesh.scale.addScalar(v.grow * dt);
-        if (v.life <= 0) {
-          if (v.isChild) heroRoot.remove(v.mesh);
-          else scene.remove(v.mesh);
-          activeVFX.splice(i, 1);
-        }
-      }
-
-      const targetPos = new THREE.Vector3(heroRoot.position.x, heroRoot.position.y + 1.15, heroRoot.position.z);
-      const cx = targetPos.x + Math.sin(camYaw) * Math.cos(camPitch) * camDist;
-      const cy = targetPos.y + Math.sin(camPitch) * camDist;
-      const cz = targetPos.z + Math.cos(camYaw) * Math.cos(camPitch) * camDist;
-
-      camera.position.lerp(new THREE.Vector3(cx, cy, cz), Math.min(1, dt * 10));
-      if (cameraShake > 0) {
-        camera.position.x += (Math.random() - 0.5) * cameraShake;
-        camera.position.y += (Math.random() - 0.5) * cameraShake;
-        cameraShake = Math.max(0, cameraShake - dt * 1.5);
-      }
-      camera.lookAt(targetPos);
-
-      renderer.render(scene, camera);
-    }
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    animate();
-  </script>
+  <script type="module" src="js/boot.js"></script>
 </body>
 </html>

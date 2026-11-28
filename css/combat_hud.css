@@ -1,0 +1,276 @@
+/* RAPSONYX In-Game Action HUD, VS Loading Screen & Floating Damage Pool */
+
+#vs-loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 450;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: max(18px, var(--safe-top)) max(22px, var(--safe-right)) max(18px, var(--safe-bottom)) max(22px, var(--safe-left));
+  background: linear-gradient(160deg, #e0f2fe 0%, #f0f9ff 52%, #ffffff 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+#vs-loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(240, 249, 255, 0.78);
+}
+
+.vs-grid-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.vs-faction-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--frost-glass-heavy);
+  border: 1.5px solid var(--frost-border);
+  box-shadow: var(--frost-shadow);
+  min-width: 210px;
+}
+
+.vs-hero-slot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+}
+
+.vs-hero-slot img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* In-Game HUD Overlay */
+#ingame-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: var(--hud-opacity);
+  padding: max(10px, var(--safe-top)) max(14px, var(--safe-right)) max(12px, var(--safe-bottom)) max(14px, var(--safe-left));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#ingame-hud button {
+  pointer-events: auto;
+}
+
+/* Pooled Floating Damage Numbers Layer */
+#floating-damage-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 48;
+  contain: layout style;
+}
+
+.dmg-float-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-shadow: 0 2px 6px rgba(15, 23, 42, 0.55);
+  will-change: transform, opacity;
+}
+
+.dmg-float-item.dmg-phys { color: #ef4444; }
+.dmg-float-item.dmg-magic { color: #22d3ee; }
+.dmg-float-item.dmg-true { color: #ffffff; }
+.dmg-float-item.dmg-heal { color: #10b981; }
+.dmg-float-item.dmg-shield { color: #38bdf8; }
+.dmg-float-item.dmg-crit { font-size: 1.25rem; color: #f59e0b; }
+
+.hud-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hud-minimap-box {
+  pointer-events: auto;
+  width: clamp(112px, 14vw, 168px);
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--sky-bright);
+  background: var(--frost-glass-heavy);
+  box-shadow: var(--frost-shadow);
+  position: relative;
+  contain: layout style paint;
+}
+
+.hud-minimap-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+}
+
+#hud-minimap-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hud-scoreboard-pill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  contain: layout style;
+}
+
+.hud-telemetry-badge {
+  padding: 5px 10px;
+  border-radius: 9px;
+  background: var(--frost-card);
+  border: 1px solid var(--frost-border);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--sky-primary);
+  contain: layout style paint;
+}
+
+.hud-event-banner {
+  padding: 10px 24px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(240, 249, 255, 0.95), rgba(255, 255, 255, 0.98), rgba(224, 242, 254, 0.95));
+  border: 1.5px solid var(--sky-bright);
+  color: var(--sky-primary);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  box-shadow: var(--frost-shadow);
+}
+
+.hud-bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.hud-joystick-pad {
+  pointer-events: auto;
+  width: clamp(112px, 13vw, 148px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--frost-glass);
+  border: 2px solid var(--sky-bright);
+  box-shadow: var(--frost-shadow);
+  position: relative;
+  touch-action: none;
+}
+
+.hud-joystick-knob {
+  width: 44%;
+  height: 44%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  border: 2px solid #ffffff;
+  position: absolute;
+  top: 28%;
+  left: 28%;
+  pointer-events: none;
+}
+
+.hud-center-vitals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 15px;
+  border-radius: 16px;
+  min-width: min(300px, 42vw);
+}
+
+.vital-bar-track {
+  width: 100%;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.14);
+  overflow: hidden;
+}
+
+.vital-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  transition: width 0.12s linear;
+}
+
+.vital-mana-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  transition: width 0.12s linear;
+}
+
+.hud-skills-cluster {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.skill-btn-wrap {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--sky-bright);
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.22);
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+}
+
+.skill-btn-wrap.ult {
+  width: 70px;
+  height: 70px;
+  border-color: var(--crystal-blue);
+}
+
+.skill-btn-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.skill-cd-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+}

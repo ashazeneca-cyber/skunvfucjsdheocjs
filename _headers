@@ -1,0 +1,20 @@
+/*
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/cdn/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Access-Control-Allow-Headers: Range, If-None-Match, Content-Type
+  Access-Control-Expose-Headers: Content-Length, Content-Range, Accept-Ranges, ETag, X-Rapsonyx-Status
+  Cache-Control: public, max-age=31536000, immutable
+
+/startup/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=3600
+
+/css/*
+  Cache-Control: public, max-age=3600

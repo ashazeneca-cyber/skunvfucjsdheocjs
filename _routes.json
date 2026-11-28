@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "include": [
+    "/cdn/*",
+    "/api/health"
+  ],
+  "exclude": [
+    "/css/*",
+    "/js/*",
+    "/data/*",
+    "/startup/*",
+    "/index.html",
+    "/manifest.json",
+    "/favicon.ico"
+  ]
+}

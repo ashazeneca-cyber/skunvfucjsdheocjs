@@ -1,0 +1,20 @@
+{
+  "name": "rapsonyx",
+  "version": "5.0.0",
+  "description": "RAPSONYX 3D Web Action Arena & Open-World 11.11km Engine (42 Heroes)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cf:dev": "npx wrangler pages dev . --port 8788",
+    "deploy": "node scripts/deploy-cloudflare.mjs",
+    "deploy:hf": "python scripts/deploy_hf_space.py",
+    "audit": "python scripts/audit-rapsonyx.py",
+    "verify": "python scripts/verify_rapsonyx.py"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.14.0"
+  }
+}
